@@ -1,7 +1,14 @@
-import '../styles/globals.css'
+import NProgress from 'nprogress';
+import Router from 'next/router';
+import Page from '../components/Page';
+import '../components/styles/nprogress.css';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+export default function MyApp({ Component,pageProps }) {
+ 
+  return (
+      
+       <Component {...pageProps} />
+   );
 }
 
-export default MyApp
+ 
