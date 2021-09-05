@@ -1,5 +1,6 @@
 import smartpy as sp
 
+#KT1HycCwmhmtqzvXwzPReXFNLEakU7wh7vLN
 class Forum(sp.Contract):
     def __init__(self):
         self.init(
@@ -8,13 +9,18 @@ class Forum(sp.Contract):
 
     @sp.entry_point
     def putQuestion(self, Query, Baker):
-        qc = Question(Query = Query, Reward = sp.amount)
+        qc = Question(Asker = sp.sender, Query = Query, Reward = sp.amount)
         c_add = sp.some(sp.create_contract(contract = qc, amount = sp.amount))
         self.data.questions.push(c_add)
 
+    @sp.global_lambda
+    def getQuestions(self):
+        sp.result(self.data.questions)
+
 class Question(sp.Contract):
-    def __init__(self, Query, Reward):
+    def __init__(self, Asker, Query, Reward):
         self.init(
+            asker = Asker,
             query = Query,
             #reward = sp.amount,
             reward = Reward,
@@ -28,6 +34,7 @@ class Question(sp.Contract):
         self.data.answer_author.push(sp.sender)
 
     def bestAnswer(self, params):
+        sp.verify(sp.sender == Asker)
         sp.send(params, self.reward)
 """
 @sp.add_test(name = "Question")
