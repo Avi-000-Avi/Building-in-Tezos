@@ -1,6 +1,14 @@
-# Help-Me-Plz
+<h1 align="center">Help-Me-Plz</h1>
 
-## Project idea
+Build at: [**TEZASIA HACKATHON**](https://tezasia.devfolio.co/)
+
+
+## Table of Contents:
+- [Introduction](#Introduction)
+- [Technology Stack](#TechnologyStack)
+- [Contributors](#Contributors)
+
+## Introduction
 
 This project is an online platform built on the tezos blockchain. The primary motive of the forum is to let users ask questions, and whoever answers it gets a reward from the person who asked.
 
@@ -17,4 +25,18 @@ Let say Alice asked a question, and the reward is 1 xtz. Now the rest is explain
 
 **Why twice the reward?**
 
-The asker may not mark any solution as the best solution due to laziness or forgets about it after getting the answer. To make sure this doesn't occur, the smart contract keeps twice the amount of reward. 
+The asker may not mark any solution as the best solution due to laziness or forgets about it after getting the answer. To make sure this doesn't occur, the smart contract keeps twice the amount of reward.
+
+## Technology Stack
+1) Tezos Blockchain
+2) Smartpy
+3) Taquito JS
+4) Node JS
+
+## Contributors:
+
+Team Name: Zima Blue
+
+* [Avinash Toppo]()
+* [Somesh Banerjee](https://github.com/somesh-banerjee)
+* [Suchitra Guduru]()
