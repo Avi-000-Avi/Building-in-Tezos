@@ -13,6 +13,7 @@
     "@taquito/beacon-wallet": "^10.1.0",
     "@taquito/signer": "^10.1.0",
     "@taquito/taquito": "^10.1.0",
+    "@temple-wallet/dapp": "^5.0.2",
     "dotenv": "^10.0.0",
     "next": "11.1.0",
     "nprogress": "^0.2.0",
