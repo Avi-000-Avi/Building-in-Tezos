@@ -5,7 +5,7 @@ Build at: [**TEZASIA HACKATHON**](https://tezasia.devfolio.co/)
 
 ## Table of Contents:
 - [Introduction](#Introduction)
-- [Technology Stack](#TechnologyStack)
+- [Technology Stack](#Technology-Stack)
 - [Contributors](#Contributors)
 
 ## Introduction
