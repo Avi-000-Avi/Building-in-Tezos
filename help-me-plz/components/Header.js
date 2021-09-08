@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Nav from './Nav';
+
 const Logo = styled.h1`
   font-size: 4rem;
   margin-left: 2rem;
@@ -24,7 +25,6 @@ const HeaderStyles = styled.header`
     justify-content: space-between;
     align-items: stretch;
   }
-
 `;
 
 export default function Header() {
@@ -35,7 +35,6 @@ export default function Header() {
           <Link href="/">Help Me Please!</Link>
         </Logo>
         <Nav/>
-
        </div>
     </HeaderStyles>
   );
