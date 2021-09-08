@@ -1,6 +1,6 @@
 import smartpy as sp
 
-#KT1HycCwmhmtqzvXwzPReXFNLEakU7wh7vLN
+#KT1CTCf789bvC3ewbgLphn6N8UdYog8zwBSH
 class Forum(sp.Contract):
     def __init__(self):
         self.init(
@@ -33,9 +33,10 @@ class Question(sp.Contract):
         self.data.answers.push(params)
         self.data.answer_author.push(sp.sender)
 
+    @sp.entry_point
     def bestAnswer(self, params):
-        sp.verify(sp.sender == Asker)
-        sp.send(params, self.reward)
+        sp.verify(sp.sender == self.data.asker)
+        sp.send(params, self.data.reward)
 """
 @sp.add_test(name = "Question")
 def test():

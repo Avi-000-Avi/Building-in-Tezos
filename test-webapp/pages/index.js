@@ -1,4 +1,4 @@
-import { TezosToolkit } from '@taquito/taquito'
+import { TezosToolkit,Signer } from '@taquito/taquito'
 import { importKey } from "@taquito/signer"
 import { useCallback,Component } from 'react'
 import { BeaconWallet } from '@taquito/beacon-wallet'
@@ -19,7 +19,7 @@ class Forum extends Component {
   }
 
   async handleSubmit(event) {
-    alert('A question was submitted: ' + this.state.value);
+    //alert('A question was submitted: ' + this.state.value);
     event.preventDefault();
 
     const contractAddress = 'KT1HycCwmhmtqzvXwzPReXFNLEakU7wh7vLN'
@@ -34,27 +34,31 @@ class Forum extends Component {
       alert("you need to install Temple Wallet");
       return;
     }
-    let wallet
-    try {
-      wallet = new TempleWallet("Temple workshop");
+    const permission = await TempleWallet.getCurrentPermission();
+    /*if(!permission){
+      await TempleWallet.requestPermission('florencenet','')
+    }*/
+    console.info(permission);
 
-      if (!wallet.connected) {
-        await wallet.connect("florence", { forcePermission: true });
+    const wallet = new TempleWallet("help-me-plz", permission);
 
-      const tezos = wallet.toTezos();
-      const { pkh, publicKey } = wallet.permission;
-      tezos.setSignerProvider(new ReadOnlySigner(pkh, publicKey));
-      }
-      console.log("wallet connected");
-    }catch(e){
-      console.log(e);
-    }
-    Tezos.setProvider({ wallet })
+    if (!wallet.connected)
+      await wallet.connect("florencenet");
+    console.info(wallet.connected);
+
+
+    const tezos = wallet.toTezos();
+    const { pkh, publicKey } = wallet.permission;
+    Tezos.setProvider({ wallet });
+    Tezos.setWalletProvider(wallet);
+    tezos.setSignerProvider(pkh, publicKey);
+    /*setConnection({ tezos, accountPkh: await tezos.wallet.pkh() });*/
+
     const operation = await (contract.methods.default(
       // parameter order should match the entrypoint in the smart contract
       this.state.value
     ).send())
-
+    await operation.confirmation()
   }
 
   render() {
