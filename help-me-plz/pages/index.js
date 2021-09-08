@@ -4,6 +4,9 @@ import Questions from '../components/Question';
 import { TezosToolkit } from '@taquito/taquito'
 import { importKey } from "@taquito/signer"
 
+const tezos = new TezosToolkit('');
+
+
 
 export default function Home() {
   return (
