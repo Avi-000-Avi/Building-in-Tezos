@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import Form from './styles/Form';
+ import Form from './styles/Form';
 
 
 export default function Questions() {

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@taquito/taquito": "^10.1.0"
+  }
+}
