@@ -3,6 +3,11 @@ import { importKey } from "@taquito/signer"
 import { useCallback,Component } from 'react'
 import { BeaconWallet } from '@taquito/beacon-wallet'
 import { TempleWallet }from '@temple-wallet/dapp'
+import {
+  NetworkType,
+  BeaconEvent,
+  defaultEventCallbacks
+} from "@airgap/beacon-sdk";
 
 class Forum extends Component {
 
@@ -22,50 +27,50 @@ class Forum extends Component {
     //alert('A question was submitted: ' + this.state.value);
     event.preventDefault();
 
-    const contractAddress = 'KT1HycCwmhmtqzvXwzPReXFNLEakU7wh7vLN'
+    const contractAddress = 'KT1CTCf789bvC3ewbgLphn6N8UdYog8zwBSH'
+    //const Tezos = new TezosToolkit('https://florencenet.smartpy.io')
     const Tezos = new TezosToolkit('https://rpc.florence.tzstats.com')
     const contract = await Tezos.contract.at(contractAddress)
     console.log(contract)
     const storage = await contract.storage()
     console.log(storage)
 
-    const isAvailable = await TempleWallet.isAvailable();
-    if (!isAvailable) {
-      alert("you need to install Temple Wallet");
-      return;
-    }
-    const permission = await TempleWallet.getCurrentPermission();
-    /*if(!permission){
-      await TempleWallet.requestPermission('florencenet','')
-    }*/
-    console.info(permission);
+    const wallet = new BeaconWallet({
+      name: "help-me-plz",
+      preferredNetwork: NetworkType.FLORENCENET,
+      disableDefaultEvents: true,
+      eventHandlers: {
+        [BeaconEvent.PAIR_INIT]: {
+          handler: defaultEventCallbacks.PAIR_INIT
+        },
+        [BeaconEvent.PAIR_SUCCESS]: {
+          handler: data => setPublicToken(data.publicKey)
+        }
+      }
+    });
 
-    const wallet = new TempleWallet("help-me-plz", permission);
-
-    if (!wallet.connected)
-      await wallet.connect("florencenet");
-    console.info(wallet.connected);
-
-
-    const tezos = wallet.toTezos();
-    const { pkh, publicKey } = wallet.permission;
-    Tezos.setProvider({ wallet });
     Tezos.setWalletProvider(wallet);
-    tezos.setSignerProvider(pkh, publicKey);
-    /*setConnection({ tezos, accountPkh: await tezos.wallet.pkh() });*/
+    await wallet.requestPermissions({
+      network: {
+        type: NetworkType.FLORENCENET,
+        rpcUrl: "https://rpc.florence.tzstats.com"
+      }
+    });
 
-    const operation = await (contract.methods.default(
-      // parameter order should match the entrypoint in the smart contract
-      this.state.value
-    ).send())
-    await operation.confirmation()
+    try {
+      const op = await contract.methods.putQuestion(this.state.value).send();
+      await op.confirmation();
+    } catch (e) {
+      console.log(e);
+    } finally {
+
+    }
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Name:
           <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
